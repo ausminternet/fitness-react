@@ -1,0 +1,55 @@
+{
+  "efforts": {
+    "Full workout": {
+      "effort": 100
+    },
+    "light workout": {
+      "effort": 60
+    },
+    "wakeup in the morning": {
+      "effort": 30
+    }
+  },
+  "exercises": [
+    {
+      "type": "pullups",
+      "repeats": {
+        "max": 40,
+        "setMax": 6,
+        "setMin": 3
+      }
+    },
+    {
+      "type": "crunches",
+      "repeats": {
+        "max": 140,
+        "setMax": 30,
+        "setMin": 15
+      }
+    },
+    {
+      "type": "pushups",
+      "repeats": {
+        "max": 80,
+        "setMax": 15,
+        "setMin": 8
+      }
+    },
+    {
+      "type": "benchdips",
+      "repeats": {
+        "max": 60,
+        "setMax": 15,
+        "setMin": 10
+      }
+    },
+    {
+      "type": "backlifts",
+      "repeats": {
+        "max": 40,
+        "setMax": 10,
+        "setMin": 6
+      }
+    }
+  ] 
+}
