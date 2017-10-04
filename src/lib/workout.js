@@ -42,9 +42,9 @@ class Workout {
     })
   }
 
-  isDifferentExercise(exercise) {
-    return this.currentExercise !== exercise
-  }
+  // isDifferentExercise(exercise) {
+  //   return this.currentExercise !== exercise
+  // }
 
   done() {
     return this.exercises.every(e => e.done())
