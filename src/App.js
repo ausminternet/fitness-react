@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import CurrentExercise from './CurrentExercise'
-import Stats from './Stats'
+import ActiveWorkout from './ActiveWorkout'
+import FinishedWorkout from './FinishedWorkout'
+import PrepareWorkout from './PrepareWorkout'
 import Workout from './lib/workout'
 import config from './data/config.json'
 // import StartWorkout from './containers/StartWorkout'
@@ -18,6 +19,7 @@ class App extends Component {
     this.tick = this.tick.bind(this)
     this.start = this.start.bind(this)
     this.restart = this.restart.bind(this)
+    this.cancel = this.cancel.bind(this)
     this.next = this.next.bind(this)
   }
 
@@ -31,11 +33,17 @@ class App extends Component {
     this.workout.start()
     this.setState({
       isStarted: true,
+      isDone: false,
+      effort,
       currentExercise: this.workout.currentExercise
     })
   }
 
   restart() {
+    this.start(this.state.effort)
+  }
+
+  cancel() {
     this.workout = undefined
     this.setState({
       isStarted: false,
@@ -60,38 +68,28 @@ class App extends Component {
   render() {
     if (!this.state.isStarted) {
       return (
-        <div>
-          <h2>anfangen?</h2>
-          <button onClick={() => this.start(100)}>start 100</button>
-          <button onClick={() => this.start(60)}>start 60</button>
-          <button onClick={() => this.start(30)}>start 30</button>
-        </div>
+        <PrepareWorkout onClickHandler={(effort) => this.start(effort)} />
       )
     }
 
     if (this.state.isDone) {
       return (
-        <div>
-          <h2>fertig!</h2>
-          <button class="a-button" onClick={this.restart}>restart</button>
-          <h2>Stats:</h2>
-          <Stats exercises={this.workout.exercises} />
-        </div>
+        <FinishedWorkout
+          exercises={this.workout.exercises}
+          onRestartClickHandler={this.restart}
+          onCancelClickHandler={this.cancel}
+        />
       )
     }
 
     return (
-      <div className="App">
-        <CurrentExercise exercise={this.state.currentExercise} />
-        <button
-          className="NextButton"
-          onClick={this.tick}
-          disabled={this.state.isDone}
-        >
-          next
-        </button>
-        <Stats exercises={this.workout.exercises} />
-      </div>
+      <ActiveWorkout
+        exercises={this.workout.exercises}
+        currentExercise={this.state.currentExercise}
+        onNextClickHandler={this.tick}
+        onRestartClickHandler={this.restart}
+        onCancelClickHandler={this.cancel}
+      />
     )
   }
 }
