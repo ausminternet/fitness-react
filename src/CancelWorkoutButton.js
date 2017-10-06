@@ -1,4 +1,5 @@
 import React from 'react'
+import LeftIcon from './left.png'
 
 function CancelWorkoutButton(props) {
   return (
@@ -6,7 +7,7 @@ function CancelWorkoutButton(props) {
       className="CancelWorkoutButton"
       onClick={props.onClickHandler}
     >
-      {/* <img src={clear} alt="Cancel workout"/> */}
+      <img src={LeftIcon} alt="Cancel workout"/>
       {props.text}
     </button>
   )

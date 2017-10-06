@@ -14,13 +14,13 @@ class Exercise {
     return Math.ceil(this.maxRepeatsDefault / 100 * this.effort)
   }
 
-  nextRepeats() {
-    let min = (this.minRepeatsPerSet <= this.repeatsLeft()) ?
-      this.minRepeatsPerSet : this.repeatsLeft()  
-    let max = (this.maxRepeatsPerSet <= this.repeatsLeft()) ?
-      this.maxRepeatsPerSet : this.repeatsLeft()
+  setNextRepeats() {
+    let min = (this.minRepeatsPerSet <= this.repeatsLeft())
+      ? this.minRepeatsPerSet : this.repeatsLeft()
+    let max = (this.maxRepeatsPerSet <= this.repeatsLeft())
+      ? this.maxRepeatsPerSet : this.repeatsLeft()
 
-    return utils.randomNumber(min, max)
+    this.currentRepeats = utils.randomNumber(min, max)
   }
 
   done() {
@@ -39,8 +39,8 @@ class Exercise {
     return 100 - this.percentageDone()
   }
 
-  do(number = this.currentRepeats) {
-    this.repeatsDone += number
+  do() {
+    this.repeatsDone += this.currentRepeats
   }
 }
 

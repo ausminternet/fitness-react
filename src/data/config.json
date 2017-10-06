@@ -20,6 +20,14 @@
       }
     },
     {
+      "type": "leglift",
+      "repeats": {
+        "max": 40,
+        "setMax": 10,
+        "setMin": 6
+      }
+    },
+    {
       "type": "crunches",
       "repeats": {
         "max": 140,

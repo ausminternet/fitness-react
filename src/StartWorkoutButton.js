@@ -6,7 +6,8 @@ function StartWorkoutButton(props) {
       className="StartWorkoutButton"
       onClick={() => props.onClickHandler(props.effort)}
     >
-      {props.effort}%
+      <span>{props.text}</span>
+      <span>{props.effort}%</span>
     </button>
   )
 }

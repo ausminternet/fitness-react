@@ -6,10 +6,10 @@ class Workout {
     this.started = false
     this.effort = effort
     this.lastExercise = undefined
-    this.createExercises(exercises)
+    this._createExercises(exercises)
   }
 
-  createExercises(exercises) {
+  _createExercises(exercises) {
     this.exercises = exercises.map(e => {
       return new Exercise(e, this.effort)
     })
@@ -22,28 +22,40 @@ class Workout {
   }
 
   next() {
-    this.exercisesLeft = this.exercises.filter(e => !e.done())
-    this.currentExercise = this.nextExercise()
-    this.currentExercise.currentRepeats = this.currentExercise.nextRepeats()
+    if (!this.done()) {
+      this.setNextExercise()
+      this.currentExercise.setNextRepeats()
+    }
   }
 
-  nextExercise() {
-    if (this.exercisesLeft.length === 1) return this.exercisesLeft[0]
-    let exs = this.sortByPercentageDone(this.exercisesLeft)
-    let iMax = (this.exercisesLeft.length === 2) ? 1 : 2
-    let i = utils.randomNumber(1, this.exercisesLeft.length / iMax) - 1
-    return (this.isDifferentExercise(exs[i])) ? exs[i] : this.nextExercise()
+  setNextExercise() {
+    this.currentExercise = this._nextExercise()
   }
 
-  sortByPercentageDone(exercises) {
+  _nextExercise() {
+    const exercisesLeft = this.exercises.filter(e => !e.done())
+    if (exercisesLeft.length === 1) return exercisesLeft[0]
+    let exs = this._sortByPercentageDone(exercisesLeft)
+    let iMax = (exercisesLeft.length === 2) ? 1 : 3
+    let i = utils.randomNumber(1, exercisesLeft.length / iMax) - 1
+    return (this._isDifferentExercise(exs[i]))
+      ? exs[i]
+      : this._nextExercise()
+  }
+
+  _sortByPercentageDone(exercises) {
     return exercises.sort((a, b) => {
       return a.percentageDone() === b.percentageDone()
         ? 0 : +(a.percentageDone() > b.percentageDone()) || -1
     })
   }
 
-  isDifferentExercise(exercise) {
+  _isDifferentExercise(exercise) {
     return this.currentExercise !== exercise
+  }
+
+  doCurrentExercise() {
+    this.currentExercise.do()
   }
 
   done() {

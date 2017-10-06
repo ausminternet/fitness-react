@@ -1,5 +1,5 @@
 import React from 'react'
-import replay from './replay.svg'
+import RestartIcon from './restart.png'
 
 function RestartWorkoutButton(props) {
   return (
@@ -7,7 +7,7 @@ function RestartWorkoutButton(props) {
       className="RestartWorkoutButton"
       onClick={props.onClickHandler}
     >
-      <img src={replay} alt="Restart workout"/>
+      <img src={RestartIcon} alt="Restart workout"/>
       Restart
     </button>
   )

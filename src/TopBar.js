@@ -3,7 +3,7 @@ import RestartWorkoutButton from './RestartWorkoutButton'
 import CancelWorkoutButton from './CancelWorkoutButton'
 
 function TopBar(props) {
-  const cancelButtonText = (props.workoutDone) ? 'New' : 'Cancel'
+  const cancelButtonText = (props.workoutDone) ? 'Back' : 'Cancel'
 
   return (
     <div className="TopBar">
