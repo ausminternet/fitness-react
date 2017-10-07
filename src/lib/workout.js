@@ -1,66 +1,42 @@
-const Exercise = require('./exercise')
-const utils = require('./utils')
+import {randomNumber} from './utils'
 
-class Workout {
-  constructor(exercises, effort = 100) {
-    this.started = false
-    this.effort = effort
-    this.lastExercise = undefined
-    this._createExercises(exercises)
-  }
+export const nextRepeats = (exercise) => {
+  const min = (exercise.repeatsSetMin <= repeatsLeft(exercise))
+    ? exercise.repeatsSetMin
+    : repeatsLeft(exercise)
+  const max = (exercise.repeatsSetMax <= repeatsLeft(exercise))
+    ? exercise.repeatsSetMax
+    : repeatsLeft(exercise)
 
-  _createExercises(exercises) {
-    this.exercises = exercises.map(e => {
-      return new Exercise(e, this.effort)
-    })
-    this.totalExercises = this.exercises.length
-  }
-
-  start() {
-    this.started = true
-    this.next()
-  }
-
-  next() {
-    if (!this.done()) {
-      this.setNextExercise()
-      this.currentExercise.setNextRepeats()
-    }
-  }
-
-  setNextExercise() {
-    this.currentExercise = this._nextExercise()
-  }
-
-  _nextExercise() {
-    const exercisesLeft = this.exercises.filter(e => !e.done())
-    if (exercisesLeft.length === 1) return exercisesLeft[0]
-    let exs = this._sortByPercentageDone(exercisesLeft)
-    let iMax = (exercisesLeft.length === 2) ? 1 : 3
-    let i = utils.randomNumber(1, exercisesLeft.length / iMax) - 1
-    return (this._isDifferentExercise(exs[i]))
-      ? exs[i]
-      : this._nextExercise()
-  }
-
-  _sortByPercentageDone(exercises) {
-    return exercises.sort((a, b) => {
-      return a.percentageDone() === b.percentageDone()
-        ? 0 : +(a.percentageDone() > b.percentageDone()) || -1
-    })
-  }
-
-  _isDifferentExercise(exercise) {
-    return this.currentExercise !== exercise
-  }
-
-  doCurrentExercise() {
-    this.currentExercise.do()
-  }
-
-  done() {
-    return this.exercises.every(e => e.done())
-  }
+  return randomNumber(min, max)
 }
 
-module.exports = Workout
+export const repeatsLeft = exercise => {
+  return exercise.repeatsMax - exercise.repeatsDone
+}
+
+export const sortByPercentageDone = exercises => {
+  return exercises.sort((a, b) => {
+    return percentageDone(a) === percentageDone(b)
+      ? 0 : +(percentageDone(a) > percentageDone(b)) || -1
+  })
+}
+
+export const percentageDone = exercise => {
+  return Math.floor((exercise.repeatsDone / exercise.repeatsMax) * 100)
+}
+
+export const nextExercise = state => {
+  const exercisesLeft = state.exercises.filter(e => !e.isDone)
+  if (exercisesLeft.length === 1) return exercisesLeft[0].id
+  const sortedExercises = sortByPercentageDone(exercisesLeft)
+  const iMax = (sortedExercises.length === 2) ? 1 : 3
+  const i = randomNumber(1, sortedExercises.length / iMax) - 1
+  return (state.workout.currentExercise === sortedExercises[i].id)
+    ? nextExercise(state)
+    : sortedExercises[i].id
+}
+
+export const done = exercises => {
+  return exercises.every(e => e.isDone)
+}

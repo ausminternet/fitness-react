@@ -12,7 +12,7 @@
   },
   "exercises": [
     {
-      "type": "pullups",
+      "id": "pullups",
       "repeats": {
         "max": 40,
         "setMax": 6,
@@ -20,7 +20,7 @@
       }
     },
     {
-      "type": "leglift",
+      "id": "leglift",
       "repeats": {
         "max": 40,
         "setMax": 10,
@@ -28,7 +28,7 @@
       }
     },
     {
-      "type": "crunches",
+      "id": "crunches",
       "repeats": {
         "max": 140,
         "setMax": 30,
@@ -36,7 +36,7 @@
       }
     },
     {
-      "type": "pushups",
+      "id": "pushups",
       "repeats": {
         "max": 80,
         "setMax": 15,
@@ -44,7 +44,7 @@
       }
     },
     {
-      "type": "benchdips",
+      "id": "benchdips",
       "repeats": {
         "max": 60,
         "setMax": 15,
@@ -52,7 +52,7 @@
       }
     },
     {
-      "type": "backlifts",
+      "id": "backlifts",
       "repeats": {
         "max": 40,
         "setMax": 10,
