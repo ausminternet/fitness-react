@@ -1,14 +1,12 @@
 import React from 'react'
-import WorkoutStats from '../components/WorkoutStats'
+import WorkoutRecap from '../components/WorkoutRecap'
 import FinishedMessage from '../components/FinishedMessage'
-import TopBar from '../components/TopBar'
 
 const FinishedWorkout = () => {
   return (
     <div className="FinishedWorkout">
-      <TopBar />
       <FinishedMessage />
-      <WorkoutStats />
+      <WorkoutRecap />
     </div>
   )
 }

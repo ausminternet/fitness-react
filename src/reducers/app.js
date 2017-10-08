@@ -1,4 +1,4 @@
-const app = (state = {appState: 'initial'}, action) => {
+const app = (state = {appState: 'noUser'}, action) => {
   switch (action.type) {
     case 'CLEAR_WORKOUT':
       return {
@@ -20,6 +20,16 @@ const app = (state = {appState: 'initial'}, action) => {
       return {
         ...state,
         appState: 'workoutFinished'
+      }
+    case 'SET_USER':
+      return {
+        ...state,
+        appState: 'initial'
+      }
+    case 'UNSET_USER':
+      return {
+        ...state,
+        appState: 'noUser'
       }
     default:
       return state

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 const Stat = ({id, repeatsDone, repeatsMax}) => {
   const percentDone = Math.floor((repeatsDone / repeatsMax) * 100)
-  const percentLeft = 100 - percentDone
 
   return (
     <div className="Stat">
@@ -23,7 +22,7 @@ const Stat = ({id, repeatsDone, repeatsMax}) => {
       <div className="progressbar">
         <div
           className="progress"
-          style={{width: percentLeft + '%'}}
+          style={{width: percentDone + '%'}}
         ></div>
       </div>
     </div>

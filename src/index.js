@@ -1,17 +1,28 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware, compose } from 'redux'
-import ReduxThunk from 'redux-thunk'
-import workoutApp from './reducers'
 import App from './views/App'
-// import registerServiceWorker from './registerServiceWorker'
+// import firebaseConfig from './data/firebaseConfig'
+// import * as firebase from 'firebase'
+// import 'firebase/auth'
+// import 'firebase/firestore'
+import registerServiceWorker from './registerServiceWorker'
+import createStore from './lib/createStore'
 import 'akwa-themes/dist/css/fitness.css'
+import 'akwa-themes/dist/js/fitness.js'
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const store = createStore(workoutApp, composeEnhancers(
-  applyMiddleware(ReduxThunk)
-))
+// const firebaseApp = firebase.initializeApp(firebaseConfig)
+
+// const createStoreWithFirestore = compose(
+//   reduxFirestore(firebaseApp, reduxFirebaseConfig),
+// )(createStore)
+
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+// const store = createStoreWithFirestore(rootReducer, composeEnhancers(
+//   applyMiddleware(ReduxThunk)
+// ))
+
+const store = createStore()
 
 render(
   <Provider store={store}>
@@ -19,4 +30,4 @@ render(
   </Provider>,
   document.getElementById('root')
 )
-// registerServiceWorker()
+registerServiceWorker()

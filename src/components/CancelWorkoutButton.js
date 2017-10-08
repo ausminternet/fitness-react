@@ -9,8 +9,7 @@ let CancelWorkoutButton = ({onClick}) => {
       className="CancelWorkoutButton"
       onClick={onClick}
     >
-      {/* <img src={CancelIcon} alt="Back"/> */}
-      Cancel
+      <img src={CancelIcon} alt="Back"/>
     </button>
   )
 }

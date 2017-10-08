@@ -3,29 +3,41 @@ import { connect } from 'react-redux'
 import RestartWorkoutButton from './RestartWorkoutButton'
 import CancelWorkoutButton from './CancelWorkoutButton'
 import ClearWorkoutButton from './ClearWorkoutButton'
+import LogoutButton from './LogoutButton'
+import LoginButton from './LoginButton'
+import UserButton from './UserButton'
 
 let TopBar = ({appState}) => {
-  let leftButton
+  let left, right
   switch (appState) {
     case 'workoutStarted':
-      leftButton = <CancelWorkoutButton />
+      left = <CancelWorkoutButton />
+      right = <RestartWorkoutButton />
+      break
+    case 'workoutFinished':
+      left = <ClearWorkoutButton />
+      right = <RestartWorkoutButton />
+      break
+    case 'noUser':
+      left = null
+      right = <LoginButton />
       break
     default:
-      leftButton = <ClearWorkoutButton />
-      break
+      left = <UserButton />
+      right = <LogoutButton />
   }
 
   return (
     <div className="TopBar">
-      {leftButton}
-      <RestartWorkoutButton />
+      {left}
+      {right}
     </div>
   )
 }
 
 const mapStateToProps = state => {
   return {
-    appState: state.app.appState
+    appState: state.app.appState,
   }
 }
 

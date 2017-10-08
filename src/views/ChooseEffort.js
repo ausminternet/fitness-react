@@ -5,6 +5,7 @@ const ChooseEffort = () => {
   return (
     <div className="ChooseEffort">
       <h1>Choose your workout:</h1>
+      <ChooseWorkoutButton text="Test" effort={1} />
       <ChooseWorkoutButton text="Wake me up" effort={30} />
       <ChooseWorkoutButton text="Daily workout" effort={60} />
       <ChooseWorkoutButton text="Sweat hard" effort={100} />
