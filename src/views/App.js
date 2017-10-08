@@ -5,14 +5,23 @@ import ActiveWorkout from './ActiveWorkout'
 import FinishedWorkout from './FinishedWorkout'
 
 let App = ({appState}) => {
+  let view
   switch (appState) {
     case 'workoutStarted':
-      return <ActiveWorkout />
+      view = <ActiveWorkout />
+      break
     case 'workoutFinished':
-      return <FinishedWorkout />
+      view = <FinishedWorkout />
+      break
     default:
-      return <ChooseEffort />
+      view = <ChooseEffort />
   }
+
+  return (
+    <div className="App">
+      {view}
+    </div>
+  )
 }
 
 const mapStateToProps = state => {

@@ -8,7 +8,8 @@ const workout = (state = {}, action) => {
     case 'START_WORKOUT':
       return {
         ...state,
-        isStarted: true
+        isStarted: true,
+        startTime: action.startTime
       }
     case 'PREPARE_NEXT_EXERCISE':
       return {
@@ -25,7 +26,8 @@ const workout = (state = {}, action) => {
       return {
         ...state,
         isStarted: false,
-        isDone: true
+        isDone: true,
+        finishTime: action.finishTime
       }
     case 'CLEAR_WORKOUT':
       return {
@@ -34,7 +36,8 @@ const workout = (state = {}, action) => {
         isDone: false,
         currentRepeats: 0,
         currentExercise: undefined,
-        effort: undefined
+        effort: undefined,
+        startTime: undefined
       }
     case 'RESTART_WORKOUT':
       return {
@@ -42,7 +45,8 @@ const workout = (state = {}, action) => {
         isStarted: true,
         isDone: false,
         currentRepeats: 0,
-        currentExercise: undefined
+        currentExercise: undefined,
+        startTime: action.startTime
       }
     default:
       return state

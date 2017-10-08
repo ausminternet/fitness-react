@@ -11,7 +11,8 @@ export const setEffort = effort => {
 
 export const startWorkout = () => {
   return {
-    type: 'START_WORKOUT'
+    type: 'START_WORKOUT',
+    startTime: Date.now()
   }
 }
 
@@ -20,7 +21,9 @@ export const restartWorkout = () => {
     dispatch(resetExercises())
     dispatch({
       type: 'RESTART_WORKOUT',
+      startTime: Date.now()
     })
+    dispatch(prepareNextExercise())
   }
 }
 
@@ -47,7 +50,8 @@ export const tick = () => {
 
 export const finishWorkout = () => {
   return {
-    type: 'FINISH_WORKOUT'
+    type: 'FINISH_WORKOUT',
+    finishTime: Date.now()
   }
 }
 

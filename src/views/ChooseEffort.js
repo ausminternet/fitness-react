@@ -1,9 +1,9 @@
 import React from 'react'
 import ChooseWorkoutButton from '../components/ChooseWorkoutButton'
 
-const ChooseEffortView = () => {
+const ChooseEffort = () => {
   return (
-    <div className="ChooseEffortView">
+    <div className="ChooseEffort">
       <h1>Choose your workout:</h1>
       <ChooseWorkoutButton text="Wake me up" effort={30} />
       <ChooseWorkoutButton text="Daily workout" effort={60} />
@@ -12,4 +12,4 @@ const ChooseEffortView = () => {
   )
 }
 
-export default ChooseEffortView
+export default ChooseEffort

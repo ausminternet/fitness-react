@@ -4,14 +4,13 @@ import WorkoutStats from '../components/WorkoutStats'
 import Timer from '../components/Timer'
 import TopBar from '../components/TopBar'
 import { connect } from 'react-redux'
-import config from '../data/config.json'
 
-let ActiveWorkout = () => {
+let ActiveWorkout = ({startTime}) => {
   return (
-    <div className="ActiveWorkoutView">
+    <div className="ActiveWorkout">
       <TopBar />
       <CurrentExercise />
-      <Timer />
+      <Timer startTime={startTime} />
       <WorkoutStats />
     </div>
   )
@@ -19,8 +18,7 @@ let ActiveWorkout = () => {
 
 const mapStateToProps = state => {
   return {
-    exercises: config.exercises,
-    effort: state.workout.effort
+    startTime: state.workout.startTime
   }
 }
 

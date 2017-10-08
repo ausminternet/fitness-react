@@ -3,7 +3,7 @@ import { tick } from '../actions/workout'
 import { connect } from 'react-redux'
 
 let CurrentExercise = ({
-  currentExerciseId,
+  currentExercise,
   currentRepeats,
   onClick
 }) => {
@@ -12,7 +12,7 @@ let CurrentExercise = ({
       className="CurrentExercise"
       onClick={onClick}
     >
-      <div className="name">{currentExerciseId}</div>
+      <div className="name">{currentExercise}</div>
       <div className="repeats">{currentRepeats}</div>
     </div>
   )
@@ -20,7 +20,7 @@ let CurrentExercise = ({
 
 const mapStateToProps = state => {
   return {
-    currentExerciseId: state.workout.CurrentExercise,
+    currentExercise: state.workout.currentExercise,
     currentRepeats: state.workout.currentRepeats
   }
 }

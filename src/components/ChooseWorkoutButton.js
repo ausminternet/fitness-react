@@ -2,10 +2,11 @@ import { connect } from 'react-redux'
 import { start } from '../actions/workout'
 import React from 'react'
 
-let ChooseWorkoutButton = ({effort, children, isActive, onClick}) => {
+let ChooseWorkoutButton = ({effort, text, isActive, onClick}) => {
   return (
-    <button onClick={onClick} disabled={isActive}>
-      {effort}
+    <button className="ChooseWorkoutButton" onClick={onClick} disabled={isActive}>
+      <span>{text}</span>
+      <span>{effort}</span>
     </button>
   )
 }

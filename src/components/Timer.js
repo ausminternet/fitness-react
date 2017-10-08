@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 
 class Timer extends Component {
-  constructor() {
+  constructor({startTime}) {
     super()
-    this.start = Date.now()
     this.state = {
-      elapsed: 0
+      elapsed: 0,
+      start: startTime
     }
+  }
+
+  componentWillReceiveProps({startTime}) {
+    this.setState({start: startTime})
   }
 
   componentDidMount() {
@@ -18,20 +22,20 @@ class Timer extends Component {
   }
 
   tick = () => {
-    this.setState({elapsed: new Date() - this.start})
+    this.setState({elapsed: new Date() - this.state.start})
+    this.calcTime()
+  }
+
+  calcTime() {
+    let elapsed = Math.round(this.state.elapsed / 100)
+    let seconds = (elapsed / 10).toFixed(1)
+    var date = new Date(null)
+    date.setSeconds(seconds)
+    this.time = date.toISOString().substr(11, 8)
   }
 
   render() {
-    let elapsed = Math.round(this.state.elapsed / 100)
-    let seconds = (elapsed / 10).toFixed(1)
-    // let minutes = Math.floor(elapsed / 60)
-    // let seconds = elapsed - minutes * 60
-    // let hours = Math.floor(time / 3600);
-    // time = time - hours * 3600;
-    var date = new Date(null)
-    date.setSeconds(seconds)
-    var time = date.toISOString().substr(11, 8)
-    return <div className="Timer">{time}</div>
+    return <div className="Timer">{this.time}</div>
   }
 }
 
