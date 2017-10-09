@@ -5,11 +5,12 @@ import { connect } from 'react-redux'
 let CurrentExercise = ({
   currentExercise,
   currentRepeats,
+  workoutState,
   onClick
 }) => {
   return (
     <div
-      className="CurrentExercise"
+      className={'CurrentExercise ' + workoutState}
       onClick={onClick}
     >
       <div className="name">{currentExercise}</div>
@@ -21,7 +22,8 @@ let CurrentExercise = ({
 const mapStateToProps = state => {
   return {
     currentExercise: state.workout.currentExercise,
-    currentRepeats: state.workout.currentRepeats
+    currentRepeats: state.workout.currentRepeats,
+    workoutState: state.workout.workoutState
   }
 }
 

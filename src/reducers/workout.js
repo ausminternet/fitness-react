@@ -8,7 +8,7 @@ const workout = (state = {}, action) => {
     case 'START_WORKOUT':
       return {
         ...state,
-        isStarted: true,
+        workoutState: 'active',
         startTime: action.startTime
       }
     case 'PREPARE_NEXT_EXERCISE':
@@ -25,14 +25,24 @@ const workout = (state = {}, action) => {
     case 'FINISH_WORKOUT':
       return {
         ...state,
-        isStarted: false,
+        workoutState: 'finished',
         isDone: true,
         finishTime: action.finishTime
+      }
+    case 'PAUSE_WORKOUT':
+      return {
+        ...state,
+        workoutState: 'paused'
+      }
+    case 'RESUME_WORKOUT':
+      return {
+        ...state,
+        workoutState: 'active'
       }
     case 'CLEAR_WORKOUT':
       return {
         ...state,
-        isStarted: false,
+        workoutState: 'initial',
         isDone: false,
         currentRepeats: 0,
         currentExercise: undefined,
@@ -42,7 +52,7 @@ const workout = (state = {}, action) => {
     case 'RESTART_WORKOUT':
       return {
         ...state,
-        isStarted: true,
+        workoutState: 'started',
         isDone: false,
         currentRepeats: 0,
         currentExercise: undefined,

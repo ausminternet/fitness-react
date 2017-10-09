@@ -9,7 +9,8 @@ class LoginForm extends Component {
     this.state = {
       email: '',
       password: '',
-      loginText: 'Login'
+      loginText: 'Login',
+      disableSubmit: true
     }
   }
 
@@ -38,7 +39,9 @@ class LoginForm extends Component {
 
   render() {
     const error = this.state.showError
-      ? <p className="ErrorMessage">Login failed! Try again...</p>
+      ? <div className="ErrorMessageContainer">
+        <p className="ErrorMessage">Login failed! Try again...</p>
+      </div>
       : null
 
     return (
@@ -71,7 +74,7 @@ class LoginForm extends Component {
           extend="a-button"
           className="LoginButton"
           type="submit"
-          disabled={this.state.disableForm}
+          disabled={this.state.disableForm || this.state.disableSubmit}
         >{this.state.loginText}</button>
       </form>
     )
@@ -85,11 +88,34 @@ class LoginForm extends Component {
     this.setState({
       [name]: value
     })
+
+    if (this.readyToSubmit()) {
+      console.log('enable')
+      console.log('password: ', this.state.password)
+      this.setState({disableSubmit: false})
+    } else {
+      console.log('disable')
+      this.setState({disableSubmit: true})
+    }
+  }
+
+  readyToSubmit() {
+    if (this.validateEmail(this.state.email) && this.state.password) {
+      return true
+    }
+    return false
   }
 
   handleFormSubmit = (e) => {
     e.preventDefault()
-    this.handleLogin(this.state.email, this.state.password)
+    if (this.readyToSubmit()) {
+      this.handleLogin(this.state.email, this.state.password)
+    }
+  }
+
+  validateEmail = email => {
+    let re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    return re.test(email)
   }
 }
 

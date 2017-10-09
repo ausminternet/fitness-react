@@ -5,7 +5,7 @@ let WorkoutRecap = ({exercises, elapsedTime}) => {
   return (
     <div className="WorkoutRecap">
       <div className="ElapsedTime">
-        <div className="text">time</div>
+        <div className="text">Elapsed time</div>
         <div className="time">{elapsedTime}</div>
       </div>
       <div className="DoneWorkouts">

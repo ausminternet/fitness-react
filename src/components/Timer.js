@@ -1,16 +1,39 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 class Timer extends Component {
   constructor({startTime}) {
     super()
     this.state = {
       elapsed: 0,
-      start: startTime
+      startedAt: startTime,
+      isPaused: false,
+      pauseText: 'Pause',
+      offset: 0
     }
   }
 
-  componentWillReceiveProps({startTime}) {
-    this.setState({start: startTime})
+  componentWillReceiveProps({startTime, workoutState}) {
+    if (startTime === this.state.startedAt) {
+      if (workoutState === 'paused') {
+        this.setState({
+          isPaused: true,
+          pauseText: 'Weiter',
+          pausedAt: Date.now()
+        })
+      } else {
+        this.setState({
+          isPaused: false,
+          pauseText: 'Pause',
+          offset: new Date() - this.state.pausedAt + this.state.offset
+        })
+      }
+    } else {
+      this.setState({
+        startedAt: startTime,
+        offset: 0,
+      })
+    }
   }
 
   componentDidMount() {
@@ -22,8 +45,12 @@ class Timer extends Component {
   }
 
   tick = () => {
-    this.setState({elapsed: new Date() - this.state.start})
-    this.calcTime()
+    if (!this.state.isPaused) {
+      this.setState({
+        elapsed: new Date() - this.state.startedAt - this.state.offset
+      })
+      this.calcTime()
+    }
   }
 
   calcTime() {
@@ -35,8 +62,21 @@ class Timer extends Component {
   }
 
   render() {
-    return <div className="Timer">{this.time}</div>
+    const show = (this.state.isPaused) ? 'Workout paused.' : this.time
+    return (
+      <div className="Timer">
+        {show}
+      </div>
+    )
   }
 }
 
-export default Timer
+const mapStateToProps = state => {
+  return {
+    workoutState: state.workout.workoutState
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(Timer)

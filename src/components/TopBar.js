@@ -2,7 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import RestartWorkoutButton from './RestartWorkoutButton'
 import CancelWorkoutButton from './CancelWorkoutButton'
+import DismissLastWorkoutButton from './DismissLastWorkoutButton'
 import ClearWorkoutButton from './ClearWorkoutButton'
+import PauseWorkoutButton from './PauseWorkoutButton'
 import LogoutButton from './LogoutButton'
 import LoginButton from './LoginButton'
 import UserButton from './UserButton'
@@ -12,11 +14,13 @@ let TopBar = ({appState}) => {
   switch (appState) {
     case 'workoutStarted':
       left = <CancelWorkoutButton />
-      right = <RestartWorkoutButton />
+      right = <div className="right">
+        <PauseWorkoutButton />
+        <RestartWorkoutButton />
+      </div>
       break
     case 'workoutFinished':
       left = <ClearWorkoutButton />
-      right = <RestartWorkoutButton />
       break
     case 'noUser':
       left = null

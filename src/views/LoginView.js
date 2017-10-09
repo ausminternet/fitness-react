@@ -3,7 +3,6 @@ import { checkLogin } from '../actions/user'
 import { connect } from 'react-redux'
 import LoginForm from '../components/LoginForm'
 import Loader from '../components/Loader'
-import TopBar from '../components/TopBar'
 import Logo from '../logo.png'
 import LogoName from '../logoName.png'
 

@@ -20,11 +20,11 @@
       }
     },
     {
-      "id": "leglift",
+      "id": "leglifts",
       "repeats": {
-        "max": 40,
-        "setMax": 10,
-        "setMin": 6
+        "max": 80,
+        "setMax": 15,
+        "setMin": 10
       }
     },
     {
