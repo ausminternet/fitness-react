@@ -1,11 +1,6 @@
-import firebaseConfig from '../data/firebaseConfig'
-import * as firebase from 'firebase'
-import 'firebase/auth'
-
-firebase.initializeApp(firebaseConfig)
-
 export const checkLogin = () => {
-  return dispatch => {
+  return (dispatch, getState, firebase) => {
+    console.log(firebase)
     dispatch(setLoginStateToCheckIfLoggedIn())
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -77,7 +72,7 @@ const setLoginStateToError = () => {
 }
 
 const loginToFirebase = (email, password) => {
-  return dispatch => {
+  return (dispatch, getState, firebase) => {
     return firebase.auth().signInWithEmailAndPassword(email, password)
       .then(data => {
         dispatch(setUser(data.email, data.uid, data.displayName))
@@ -90,7 +85,7 @@ const loginToFirebase = (email, password) => {
 }
 
 const logoutFromFirebase = () => {
-  return dispatch => {
+  return (dispatch, getState, firebase) => {
     return firebase.auth().signOut()
       .then(data => {
         dispatch(unsetUser())

@@ -4,11 +4,11 @@ import WorkoutStats from '../components/WorkoutStats'
 import Timer from '../components/Timer'
 import { connect } from 'react-redux'
 
-let ActiveWorkout = ({startTime}) => {
+let ActiveWorkout = ({start, paused}) => {
   return (
     <div className="ActiveWorkout">
       <CurrentExercise />
-      <Timer startTime={startTime} />
+      <Timer start={start} paused={paused} />
       <WorkoutStats />
     </div>
   )
@@ -16,7 +16,8 @@ let ActiveWorkout = ({startTime}) => {
 
 const mapStateToProps = state => {
   return {
-    startTime: state.workout.startTime
+    start: state.workout.startTime,
+    paused: state.workout.workoutState === 'paused'
   }
 }
 

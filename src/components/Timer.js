@@ -2,20 +2,20 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 class Timer extends Component {
-  constructor({startTime}) {
+  constructor({start, paused}) {
     super()
     this.state = {
       elapsed: 0,
-      startedAt: startTime,
-      isPaused: false,
+      startedAt: start,
+      isPaused: paused,
       pauseText: 'Pause',
       offset: 0
     }
   }
 
-  componentWillReceiveProps({startTime, workoutState}) {
-    if (startTime === this.state.startedAt) {
-      if (workoutState === 'paused') {
+  componentWillReceiveProps({start, paused}) {
+    if (start === this.state.startedAt) {
+      if (paused) {
         this.setState({
           isPaused: true,
           pauseText: 'Weiter',
@@ -30,7 +30,7 @@ class Timer extends Component {
       }
     } else {
       this.setState({
-        startedAt: startTime,
+        startedAt: start,
         offset: 0,
       })
     }
@@ -71,12 +71,4 @@ class Timer extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    workoutState: state.workout.workoutState
-  }
-}
-
-export default connect(
-  mapStateToProps
-)(Timer)
+export default Timer
