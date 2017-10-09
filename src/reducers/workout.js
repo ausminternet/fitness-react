@@ -52,7 +52,7 @@ const workout = (state = {}, action) => {
     case 'RESTART_WORKOUT':
       return {
         ...state,
-        workoutState: 'started',
+        workoutState: 'active',
         isDone: false,
         currentRepeats: 0,
         currentExercise: undefined,

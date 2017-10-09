@@ -45,10 +45,14 @@ class LoginForm extends Component {
       : null
 
     return (
-      <form className="LoginForm" onSubmit={this.handleFormSubmit}>
+      <form
+        className="LoginForm"
+        onSubmit={this.handleFormSubmit}
+        method="POST"
+      >
         {error}
         <input
-          className="LoginName"
+          className="LoginEmail"
           name="email"
           type="email"
           placeholder="Email"
@@ -90,11 +94,8 @@ class LoginForm extends Component {
     })
 
     if (this.readyToSubmit()) {
-      console.log('enable')
-      console.log('password: ', this.state.password)
       this.setState({disableSubmit: false})
     } else {
-      console.log('disable')
       this.setState({disableSubmit: true})
     }
   }

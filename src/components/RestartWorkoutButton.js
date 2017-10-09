@@ -10,7 +10,6 @@ let RestartWorkoutButton = ({onClick}) => {
       onClick={onClick}
     >
       <img src={RestartIcon} alt="Restart workout"/>
-      {/* Restart */}
     </button>
   )
 }

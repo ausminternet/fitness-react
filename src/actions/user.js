@@ -1,13 +1,25 @@
+import * as app from './app'
+
 export const checkLogin = () => {
-  return (dispatch, getState, firebase) => {
-    console.log(firebase)
+  return (dispatch, getState, {api, db}) => {
     dispatch(setLoginStateToCheckIfLoggedIn())
-    firebase.auth().onAuthStateChanged(user => {
+    api.auth().onAuthStateChanged(user => {
       if (user) {
         dispatch(setUser(user.email, user.uid, user.displayName))
+        dispatch(app.goto('INDEX'))
       } else {
         dispatch(unsetUser())
+        dispatch(app.goto('LOGIN'))
       }
+    })
+  }
+}
+
+export const checkSignup = (email, password, name) => {
+  return (dispatch, getState, {api, db}) => {
+    dispatch(setLoginStateToSigningUp())
+    api.auth().createUserWithEmailAndPassword(email, password).catch(error => {
+      console.log(error.code, error.message)
     })
   }
 }
@@ -18,17 +30,25 @@ const setLoginStateToCheckIfLoggedIn = () => {
   }
 }
 
+const setLoginStateToSigningUp = () => {
+  return {
+    type: 'SIGNING_UP'
+  }
+}
+
 export const login = (email, password) => {
   return dispatch => {
     dispatch(setLoginStateToLoggingIn())
-    dispatch(loginToFirebase(email, password))
+    dispatch(loginToapi(email, password))
   }
 }
 
 export const logout = () => {
   return dispatch => {
-    dispatch(setLoginStateToLoggingOut())
-    dispatch(logoutFromFirebase())
+    if (window.confirm('Logout, sure?')) {
+      dispatch(setLoginStateToLoggingOut())
+      dispatch(logoutFromapi())
+    }
   }
 }
 
@@ -71,11 +91,12 @@ const setLoginStateToError = () => {
   }
 }
 
-const loginToFirebase = (email, password) => {
-  return (dispatch, getState, firebase) => {
-    return firebase.auth().signInWithEmailAndPassword(email, password)
+const loginToapi = (email, password) => {
+  return (dispatch, getState, {api, db}) => {
+    return api.auth().signInWithEmailAndPassword(email, password)
       .then(data => {
         dispatch(setUser(data.email, data.uid, data.displayName))
+        dispatch(app.goto('INDEX'))
       })
       .catch(error => {
         console.log(error)
@@ -84,11 +105,12 @@ const loginToFirebase = (email, password) => {
   }
 }
 
-const logoutFromFirebase = () => {
-  return (dispatch, getState, firebase) => {
-    return firebase.auth().signOut()
+const logoutFromapi = () => {
+  return (dispatch, getState, {api, db}) => {
+    return api.auth().signOut()
       .then(data => {
         dispatch(unsetUser())
+        dispatch(app.goto('LOGIN'))
       })
       .catch(error => {
         console.log(error)

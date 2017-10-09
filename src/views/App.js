@@ -1,45 +1,64 @@
 import { connect } from 'react-redux'
-import React from 'react'
-import ChooseEffort from './ChooseEffort'
+import React, { Component } from 'react'
 import ActiveWorkout from './ActiveWorkout'
 import FinishedWorkout from './FinishedWorkout'
-import LoginView from './LoginView'
-import TopBar from '../components/TopBar'
+import Login from './LoginView'
+import Signup from './SignupView'
+import { checkLogin } from '../actions/user'
+import Loader from '../components/Loader'
+import Index from './Index'
+import User from './User'
 
-let App = ({appState}) => {
-  let view
-  let topbar = <TopBar />
-  switch (appState) {
-    case 'workoutStarted':
-      view = <ActiveWorkout />
-      break
-    case 'workoutFinished':
-      view = <FinishedWorkout />
-      break
-    case 'initial':
-      view = <ChooseEffort />
-      break
-    default:
-      view = <LoginView />
-      topbar = null
+class App extends Component {
+  constructor({show, checkLogin}) {
+    super()
+    this.state = {show}
+    this.checkLogin = checkLogin
   }
 
-  return (
-    <div className="App">
-      {topbar}
-      {view}
-    </div>
-  )
+  componentDidMount() {
+    this.checkLogin()
+  }
+
+  componentWillReceiveProps({show}) {
+    this.setState({
+      show
+    })
+  }
+
+  render() {
+    switch (this.state.show) {
+      case 'activeWorkout':
+        return <ActiveWorkout />
+      case 'workoutFinished':
+        return <FinishedWorkout />
+      case 'index':
+        return <Index />
+      case 'signup':
+        return <Signup />
+      case 'login':
+        return <Login />
+      case 'user':
+        return <User />
+      default:
+        return <Loader />
+    }
+  }
 }
 
 const mapStateToProps = state => {
   return {
-    appState: state.app.appState,
+    show: state.app.show,
   }
 }
 
-App = connect(
-  mapStateToProps,
-)(App)
+const mapDispatchToProps = dispatch => {
+  return {
+    checkLogin: () => dispatch(checkLogin())
+  }
+}
 
-export default App
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)

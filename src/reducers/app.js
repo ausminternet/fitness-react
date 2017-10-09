@@ -1,35 +1,34 @@
-const app = (state = {appState: 'noUser'}, action) => {
+const app = (state = {}, action) => {
   switch (action.type) {
-    case 'CLEAR_WORKOUT':
+    case 'GOTO_INDEX':
       return {
         ...state,
-        appState: 'initial'
+        show: 'index'
       }
-    case 'RESTART_WORKOUT':
-    case 'START_WORKOUT':
+    case 'GOTO_ACTIVE_WORKOUT':
       return {
         ...state,
-        appState: 'workoutStarted'
+        show: 'activeWorkout'
       }
-    case 'SET_EFFORT':
+    case 'GOTO_WORKOUT_FINISHED':
       return {
         ...state,
-        appState: 'effortChoosen'
+        show: 'workoutFinished'
       }
-    case 'FINISH_WORKOUT':
+    case 'GOTO_LOGIN':
       return {
         ...state,
-        appState: 'workoutFinished'
+        show: 'login'
       }
-    case 'SET_USER':
+    case 'GOTO_SIGNUP':
       return {
         ...state,
-        appState: 'initial'
+        show: 'signup'
       }
-    case 'UNSET_USER':
+    case 'GOTO_USER':
       return {
         ...state,
-        appState: 'noUser'
+        show: 'user'
       }
     default:
       return state

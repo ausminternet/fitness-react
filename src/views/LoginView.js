@@ -1,16 +1,24 @@
 import React, { Component } from 'react'
 import { checkLogin } from '../actions/user'
+import { goto } from '../actions/app'
 import { connect } from 'react-redux'
 import LoginForm from '../components/LoginForm'
 import Loader from '../components/Loader'
-import Logo from '../logo.png'
-import LogoName from '../logoName.png'
+import TopBar from '../components/TopBar'
+import Logo from '../components/Logo'
+import GotoButton from '../components/GotoButton'
+import RegisterIcon from '../icons/register.png'
 
 class LoginView extends Component {
-  constructor({userState, checkLogin}) {
+  constructor({userState, checkLogin, gotoSignup}) {
     super()
-    checkLogin()
     this.state = {userState}
+    this.gotoSignup = gotoSignup
+  }
+
+  handleGotoSignupClick = (e) => {
+    this.gotoSignup()
+    e.preventDefault()
   }
 
   componentWillReceiveProps({userState}) {
@@ -18,20 +26,17 @@ class LoginView extends Component {
   }
 
   render() {
-    console.log(this.state.userState)
-    let loader = (this.state.userState === 'checkingLogin')
-      ? <Loader />
-      : null
-
     return (
       <div className="LoginView">
-        {/* <TopBar /> */}
-        <div className="LogoContainer">
-          <img className="Logo" src={Logo} alt="Logo"/>
-          <img className="LogoName" src={LogoName} alt="Logo Name"/>
-        </div>
+        <TopBar right={[
+          <GotoButton
+            view="SIGNUP"
+            text="Create Account"
+            icon={RegisterIcon}
+            key={0} />
+        ]}/>
+        <Logo />
         <LoginForm />
-        {loader}
       </div>
     )
   }
@@ -45,7 +50,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    checkLogin: () => dispatch(checkLogin())
+    checkLogin: () => dispatch(checkLogin()),
+    gotoSignup: () => dispatch(goto('SIGNUP'))
   }
 }
 

@@ -34,6 +34,11 @@ const user = (state = {userState: 'loggedOut'}, action) => {
         ...state,
         userState: 'checkingLogin'
       }
+    case 'SIGNING_UP':
+      return {
+        ...state,
+        userState: 'signingUp'
+      }
     default:
       return state
   }

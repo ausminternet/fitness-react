@@ -14,6 +14,7 @@ class Timer extends Component {
   }
 
   componentWillReceiveProps({start, paused}) {
+    console.log(paused)
     if (start === this.state.startedAt) {
       if (paused) {
         this.setState({
@@ -32,6 +33,7 @@ class Timer extends Component {
       this.setState({
         startedAt: start,
         offset: 0,
+        isPaused: false
       })
     }
   }

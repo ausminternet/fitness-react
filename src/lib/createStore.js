@@ -1,17 +1,29 @@
 import { createStore, compose, applyMiddleware } from 'redux'
-import rootReducer from '../reducers'
 import ReduxThunk from 'redux-thunk'
+
 import firebaseConfig from '../data/firebaseConfig'
 import * as firebase from 'firebase'
 import 'firebase/auth'
+import 'firebase/firestore'
 
-firebase.initializeApp(firebaseConfig)
+import rootReducer from '../reducers'
 
-export default function configureStore(initialState, history) {
+const api = firebase.initializeApp(firebaseConfig)
+const db = api.firestore()
+db.collection('exercises').get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+    console.log(`${doc.id} => ${doc.data()}`)
+  })
+}).catch(error => {
+  console.log(error.code)
+  console.log(error.message)
+})
+
+export default function makeStore(initialState, history) {
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
   const store = createStore(rootReducer, composeEnhancers(
-    applyMiddleware(ReduxThunk.withExtraArgument(firebase))
+    applyMiddleware(ReduxThunk.withExtraArgument({api, db}))
   ))
 
   return store

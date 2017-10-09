@@ -1,6 +1,7 @@
 import config from '../data/config.json'
 import { nextExercise, nextRepeats, done } from '../lib/workout'
 import { createExercises, doRepeats, resetExercises } from './exercises'
+import * as app from './app'
 
 export const setEffort = effort => {
   return {
@@ -57,6 +58,7 @@ export const start = (effort) => {
     dispatch(createExercises(config.exercises))
     dispatch(startWorkout())
     dispatch(prepareNextExercise())
+    dispatch(app.goto('ACTIVE_WORKOUT'))
   }
 }
 
@@ -67,9 +69,12 @@ export const tick = () => {
         getState().workout.currentExercise,
         getState().workout.currentRepeats
       ))
-      done(getState().exercises)
-        ? dispatch(finishWorkout())
-        : dispatch(prepareNextExercise())
+      if (done(getState().exercises)) {
+        dispatch(finishWorkout())
+        dispatch(app.goto('WORKOUT_FINISHED'))
+      } else {
+        dispatch(prepareNextExercise())
+      }
     }
   }
 }
@@ -82,8 +87,11 @@ export const finishWorkout = () => {
 }
 
 export const clearWorkout = () => {
-  return {
-    type: 'CLEAR_WORKOUT'
+  return dispatch => {
+    dispatch({
+      type: 'CLEAR_WORKOUT'
+    })
+    dispatch(app.goto('INDEX'))
   }
 }
 
@@ -91,6 +99,7 @@ export const cancelWorkout = () => {
   return (dispatch) => {
     if (window.confirm('Cancel workout?')) {
       dispatch(clearWorkout())
+      dispatch(app.goto('INDEX'))
     }
   }
 }

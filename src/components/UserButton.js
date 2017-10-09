@@ -1,11 +1,12 @@
 import React from 'react'
 import UserIcon from '../icons/user.png'
 import { connect } from 'react-redux'
+import { goto } from '../actions/app'
 
-let UserButton = ({displayName}) => {
+let UserButton = ({displayName, onClick}) => {
   return (
-    <button className="UserButton">
-      <img src={UserIcon} alt="Logout"/>
+    <button className="UserButton" onClick={() => onClick()}>
+      <img src={UserIcon} alt="Avatar"/>
       {displayName}
     </button>
   )
@@ -17,8 +18,15 @@ const mapStateToProps = state => {
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    onClick: () => dispatch(goto('USER'))
+  }
+}
+
 UserButton = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(UserButton)
 
 export default UserButton

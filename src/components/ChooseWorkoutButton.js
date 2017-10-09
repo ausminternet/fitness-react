@@ -6,7 +6,7 @@ let ChooseWorkoutButton = ({effort, text, isActive, onClick}) => {
   return (
     <button className="ChooseWorkoutButton" onClick={onClick} disabled={isActive}>
       <span>{text}</span>
-      <span>{effort}</span>
+      <span className="effort">{effort}% Effort</span>
     </button>
   )
 }
