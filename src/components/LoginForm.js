@@ -84,7 +84,7 @@ class LoginForm extends Component {
     )
   }
 
-  handleInputChange = (e) => {
+  handleInputChange = e => {
     const target = e.target
     const value = target.value
     const name = target.name
@@ -92,12 +92,8 @@ class LoginForm extends Component {
     this.setState({
       [name]: value
     })
-
-    if (this.readyToSubmit()) {
-      this.setState({disableSubmit: false})
-    } else {
-      this.setState({disableSubmit: true})
-    }
+    
+    this.setState({disableSubmit: !this.readyToSubmit})
   }
 
   readyToSubmit() {
