@@ -1,74 +1,47 @@
 import * as app from './app'
 
-export const checkLogin = () => {
-  return (dispatch, getState, {api, db}) => {
-    dispatch(setLoginStateToCheckIfLoggedIn())
-    api.auth().onAuthStateChanged(user => {
-      if (user) {
-        dispatch(setUser(user.email, user.uid, user.displayName))
-        dispatch(app.goto('INDEX'))
-      } else {
-        dispatch(unsetUser())
-        dispatch(app.goto('LOGIN'))
-      }
-    })
-  }
-}
-
-export const checkSignup = (email, password, name) => {
-  return (dispatch, getState, {api, db}) => {
-    dispatch(setLoginStateToSigningUp())
-    api.auth().createUserWithEmailAndPassword(email, password).catch(error => {
-      console.log(error.code, error.message)
-    })
-  }
-}
-
-const setLoginStateToCheckIfLoggedIn = () => {
+const setLoginStateTo = (type) => {
   return {
-    type: 'CHECK_IF_LOGGED_IN'
+    type
   }
 }
 
-const setLoginStateToSigningUp = () => {
-  return {
-    type: 'SIGNING_UP'
-  }
-}
-
-export const login = (email, password) => {
-  return dispatch => {
-    dispatch(setLoginStateToLoggingIn())
-    dispatch(loginToapi(email, password))
-  }
-}
-
-export const logout = () => {
-  return dispatch => {
-    if (window.confirm('Logout, sure?')) {
-      dispatch(setLoginStateToLoggingOut())
-      dispatch(logoutFromapi())
+export const checkLogin = () => (dispatch, getState, {api}) => {
+  api.auth().onAuthStateChanged(user => {
+    if (user) {
+      dispatch(postLogin(user))
+    } else {
+      dispatch(setLoginStateTo('LOGGED_OUT'))
+      dispatch(app.hideLoader())
     }
-  }
+  })
 }
 
-export const loginButtonClicked = () => {
-  return {
-    type: 'SET_LOGIN_BUTTON_CLICKED'
-  }
+export const login = (email, password) => dispatch => {
+  dispatch(setLoginStateTo('LOGGING_IN'))
+  dispatch(loginToApi(email, password))
+    .catch(error => {
+      console.log(error)
+      dispatch(setLoginStateTo('LOGIN_FAILED'))
+    })
 }
 
-const setLoginStateToLoggingIn = () => {
-  return {
-    type: 'LOGGING_IN'
-  }
+export const postLogin = (userData) => dispatch => {
+  dispatch(setUser(userData.email, userData.uid, userData.displayName))
+  dispatch(app.prepareAppAfterLogin())
+  dispatch(setLoginStateTo('LOGGED_IN'))
+  dispatch(app.goto('INDEX'))
 }
 
-const setLoginStateToLoggingOut = () => {
-  return {
-    type: 'LOGGING_OUT'
-  }
+export const postLogout = () => dispatch => {
+  dispatch(unsetUser())
+  dispatch(app.cleanUpOnLogout())
+  dispatch(setLoginStateTo('LOGGED_OUT'))
+  dispatch(app.goto('LOGIN'))
 }
+
+const loginToApi = (email, password) => (dispatch, getState, {api, db}) =>
+  api.auth().signInWithEmailAndPassword(email, password)
 
 const setUser = (email, uid, displayName) => {
   return {
@@ -79,41 +52,31 @@ const setUser = (email, uid, displayName) => {
   }
 }
 
+export const logout = () => dispatch => {
+  if (window.confirm('Logout, sure?')) {
+    dispatch(setLoginStateTo('LOGGING_OUT'))
+    dispatch(logoutFromApi())
+      .then(dispatch(postLogout()))
+      .catch(error => {
+        console.log(error)
+      })
+  }
+}
+
+const logoutFromApi = () => (dispatch, getState, {api, db}) =>
+  api.auth().signOut()
+
 const unsetUser = () => {
   return {
     type: 'UNSET_USER',
   }
 }
 
-const setLoginStateToError = () => {
-  return {
-    type: 'LOGIN_FAILED'
-  }
-}
-
-const loginToapi = (email, password) => {
+export const checkSignup = (email, password, name) => {
   return (dispatch, getState, {api, db}) => {
-    return api.auth().signInWithEmailAndPassword(email, password)
-      .then(data => {
-        dispatch(setUser(data.email, data.uid, data.displayName))
-        dispatch(app.goto('INDEX'))
-      })
-      .catch(error => {
-        console.log(error)
-        dispatch(setLoginStateToError())
-      })
-  }
-}
-
-const logoutFromapi = () => {
-  return (dispatch, getState, {api, db}) => {
-    return api.auth().signOut()
-      .then(data => {
-        dispatch(unsetUser())
-        dispatch(app.goto('LOGIN'))
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    dispatch(setLoginStateTo('SIGNING_UP'))
+    api.auth().createUserWithEmailAndPassword(email, password).catch(error => {
+      console.log(error.code, error.message)
+    })
   }
 }

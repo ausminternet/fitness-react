@@ -9,10 +9,10 @@ let WorkoutRecap = ({exercises, elapsedTime}) => {
         <div className="time">{elapsedTime}</div>
       </div>
       <div className="DoneWorkouts">
-        {exercises.map((e, index) => {
+        {exercises.map((e) => {
           return (
-            <div key={index} className="DoneWorkout">
-              <div className="type">{e.id}</div>
+            <div key={e.id} className="DoneWorkout">
+              <div className="type">{e.name}</div>
               <div className="repeats">{e.repeatsDone}</div>
             </div>
           )
@@ -30,7 +30,7 @@ const mapStateToProps = state => {
   const elapsedTime = date.toISOString().substr(11, 8)
 
   return {
-    exercises: state.exercises,
+    exercises: state.workout.exercises,
     elapsedTime
   }
 }

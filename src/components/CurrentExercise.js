@@ -20,8 +20,10 @@ let CurrentExercise = ({
 }
 
 const mapStateToProps = state => {
+  const curExId = state.workout.currentExercise
+  const curExName = state.exercises.filter(e => e.id === curExId)[0].name
   return {
-    currentExercise: state.workout.currentExercise,
+    currentExercise: curExName,
     currentRepeats: state.workout.currentRepeats,
     workoutState: state.workout.workoutState
   }

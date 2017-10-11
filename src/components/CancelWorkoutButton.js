@@ -10,7 +10,6 @@ let CancelWorkoutButton = ({onClick}) => {
       onClick={onClick}
     >
       <img src={CancelIcon} alt="Back"/>
-      Cancel
     </button>
   )
 }

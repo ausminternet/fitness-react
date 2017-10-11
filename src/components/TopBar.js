@@ -1,20 +1,33 @@
 import React from 'react'
 
-let TopBar = ({left = [], right = []}) => {
+export const TopBar = ({ children }) => {
   return (
     <div className="TopBar">
-      <div className="left">
-        {left.map(c => {
-          return c
-        })}
-      </div>
-      <div className="right">
-        {right.map(c => {
-          return c
-        })}
-      </div>
+      {children}
     </div>
   )
 }
 
-export default TopBar
+export const TopBarLeft = ({ children }) => {
+  return (
+    <div className="TopBarLeft">
+      {children}
+    </div>
+  )
+}
+
+export const TopBarRight = ({ children }) => {
+  return (
+    <div className="TopBarRight">
+      {children}
+    </div>
+  )
+}
+
+export const TopBarCenter = ({ children }) => {
+  return (
+    <div className="TopBarCenter">
+      {children}
+    </div>
+  )
+}

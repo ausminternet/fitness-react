@@ -1,6 +1,4 @@
-import config from '../data/config.json'
-import { nextExercise, nextRepeats, done } from '../lib/workout'
-import { createExercises, doRepeats, resetExercises } from './exercises'
+import * as workoutLib from '../lib/workout'
 import * as app from './app'
 
 export const setEffort = effort => {
@@ -29,52 +27,47 @@ const resumeWorkout = () => {
   }
 }
 
-export const toggleWorkout = () => {
-  return (dispatch, getState) => {
-    if (getState().workout.workoutState === 'paused') {
-      dispatch(resumeWorkout())
-    } else {
-      dispatch(pauseWorkout())
-    }
+export const toggleWorkout = () => (dispatch, getState) => {
+  if (getState().workout.workoutState === 'paused') {
+    dispatch(resumeWorkout())
+  } else {
+    dispatch(pauseWorkout())
   }
 }
 
-export const restartWorkout = () => {
-  return dispatch => {
-    if (window.confirm('Restart workout?')) {
-      dispatch(resetExercises())
-      dispatch({
-        type: 'RESTART_WORKOUT',
-        startTime: Date.now()
-      })
-      dispatch(prepareNextExercise())
-    }
-  }
-}
-
-export const start = (effort) => {
-  return (dispatch, getState) => {
-    dispatch(setEffort(effort))
-    dispatch(createExercises(config.exercises))
-    dispatch(startWorkout())
+export const restartWorkout = () => dispatch => {
+  if (window.confirm('Restart workout?')) {
+    dispatch({
+      type: 'RESTART_WORKOUT',
+      startTime: Date.now()
+    })
     dispatch(prepareNextExercise())
-    dispatch(app.goto('ACTIVE_WORKOUT'))
   }
 }
 
-export const tick = () => {
-  return (dispatch, getState) => {
-    if (getState().workout.workoutState !== 'paused') {
-      dispatch(doRepeats(
-        getState().workout.currentExercise,
-        getState().workout.currentRepeats
-      ))
-      if (done(getState().exercises)) {
-        dispatch(finishWorkout())
-        dispatch(app.goto('WORKOUT_FINISHED'))
-      } else {
-        dispatch(prepareNextExercise())
-      }
+export const prepareRandomWorkout = (effort) => (dispatch, getState, {db}) => {
+  dispatch(setEffort(effort))
+  const exercises = getState().exercises
+  dispatch(prepareExercises(exercises, effort))
+  dispatch(startWorkout())
+  dispatch(prepareNextExercise())
+  dispatch(app.setSheet('activeWorkout'))
+  dispatch(app.openSheet())
+  // dispatch(app.goto('ACTIVE_WORKOUT'))
+}
+
+export const tick = () => (dispatch, getState) => {
+  if (getState().workout.workoutState !== 'paused') {
+    dispatch(doRepeats(
+      getState().workout.currentExercise,
+      getState().workout.currentRepeats
+    ))
+    if (workoutLib.done(getState().workout.exercises)) {
+      dispatch(app.closeSheet())
+      dispatch(finishWorkout())
+      dispatch(app.goto('WORKOUT_FINISHED'))
+    } else {
+      dispatch(prepareNextExercise())
     }
   }
 }
@@ -86,32 +79,56 @@ export const finishWorkout = () => {
   }
 }
 
-export const clearWorkout = () => {
-  return dispatch => {
-    dispatch({
-      type: 'CLEAR_WORKOUT'
-    })
-    dispatch(app.goto('INDEX'))
+export const endWorkout = () => dispatch => {
+  app.closeSheet()
+  dispatch(clearWorkout())
+  dispatch(app.goto('INDEX'))
+}
+
+export const clearWorkout = () => dispatch => {
+  dispatch({
+    type: 'CLEAR_WORKOUT'
+  })
+}
+
+export const cancelWorkout = () => (dispatch) => {
+  if (window.confirm('Cancel workout?')) {
+    dispatch(app.closeSheet())
+    window.setTimeout(() => dispatch(clearWorkout()), 300)
   }
 }
 
-export const cancelWorkout = () => {
-  return (dispatch) => {
-    if (window.confirm('Cancel workout?')) {
-      dispatch(clearWorkout())
-      dispatch(app.goto('INDEX'))
-    }
-  }
+export const prepareNextExercise = () => (dispatch, getState) => {
+  const exercises = getState().workout.exercises
+  const currentExercise = getState().workout.currentExercise
+  const nextExId = workoutLib.nextExercise(exercises, currentExercise)
+  const nextEx = getState().workout.exercises.find(e => e.id === nextExId)
+  dispatch({
+    type: 'PREPARE_NEXT_EXERCISE',
+    id: nextExId,
+    repeats: workoutLib.nextRepeats(nextEx)
+  })
 }
 
-export const prepareNextExercise = () => {
-  return (dispatch, getState) => {
-    const nextExId = nextExercise(getState())
-    const nextEx = getState().exercises.find(e => e.id === nextExId)
+export const prepareExercises = (exercises, effort) => (dispatch) => {
+  exercises.forEach(e => {
     dispatch({
-      type: 'PREPARE_NEXT_EXERCISE',
-      id: nextExId,
-      repeats: nextRepeats(nextEx)
+      type: 'ADD_EXERCISE_TO_WORKOUT',
+      exercise: {
+        id: e.id,
+        name: e.name,
+        repeatsMax: Math.ceil(e.repeatsMax / 100 * effort),
+        repeatsSetMax: e.repeatsSetMax,
+        repeatsSetMin: e.repeatsSetMin,
+      }
     })
+  })
+}
+
+export const doRepeats = (id, repeats) => {
+  return {
+    type: 'DO_REPEATS',
+    id,
+    repeats
   }
 }

@@ -5,17 +5,6 @@ const exercises = (state = [], action) => {
         ...state,
         action.exercise
       ]
-    case 'DO_REPEATS':
-      return state.map(e => {
-        if (e.id === action.id) {
-          const done = e.repeatsDone + action.repeats
-          return {...e,
-            repeatsDone: done,
-            isDone: done === e.repeatsMax
-          }
-        }
-        return e
-      })
     case 'RESET_EXERCISE':
       return state.map(e => {
         return {...e,
@@ -23,7 +12,7 @@ const exercises = (state = [], action) => {
           isDone: false
         }
       })
-    case 'CLEAR_WORKOUT':
+    case 'REMOVE_EXERCISES':
       return []
     default:
       return state

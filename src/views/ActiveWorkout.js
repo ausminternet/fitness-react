@@ -6,18 +6,20 @@ import { connect } from 'react-redux'
 import CancelWorkoutButton from '../components/CancelWorkoutButton'
 import PauseWorkoutButton from '../components/PauseWorkoutButton'
 import RestartWorkoutButton from '../components/RestartWorkoutButton'
-import TopBar from '../components/TopBar'
+import { TopBar, TopBarLeft, TopBarRight } from '../components/TopBar'
 
 let ActiveWorkout = ({start, paused}) => {
   return (
     <div className="ActiveWorkoutView">
-      <TopBar
-        left={[<CancelWorkoutButton key={0}/>]}
-        right={[
-          <PauseWorkoutButton key={0} />,
-          <RestartWorkoutButton key={1} />
-        ]}
-      />
+      <TopBar asSheet={true}>
+        <TopBarLeft>
+          <CancelWorkoutButton/>
+        </TopBarLeft>
+        <TopBarRight>
+          <PauseWorkoutButton/>
+          <RestartWorkoutButton/>
+        </TopBarRight>
+      </TopBar>
       <CurrentExercise />
       <Timer start={start} paused={paused} />
       <WorkoutStats />

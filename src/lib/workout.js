@@ -26,14 +26,14 @@ export const percentageDone = exercise => {
   return Math.floor((exercise.repeatsDone / exercise.repeatsMax) * 100)
 }
 
-export const nextExercise = state => {
-  const exercisesLeft = state.exercises.filter(e => !e.isDone)
+export const nextExercise = (exercises, currentExercise) => {
+  const exercisesLeft = exercises.filter(e => !e.isDone)
   if (exercisesLeft.length === 1) return exercisesLeft[0].id
   const sortedExercises = sortByPercentageDone(exercisesLeft)
   const iMax = (sortedExercises.length === 2) ? 1 : 3
   const i = randomNumber(1, sortedExercises.length / iMax) - 1
-  return (state.workout.currentExercise === sortedExercises[i].id)
-    ? nextExercise(state)
+  return (currentExercise === sortedExercises[i].id)
+    ? nextExercise(exercises)
     : sortedExercises[i].id
 }
 

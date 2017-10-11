@@ -10,7 +10,7 @@ let LogoutButton = ({onClick}) => {
       onClick={onClick}
     >
       <img src={LogoutIcon} alt="Logout"/>
-      Logout
+      <span>Logout</span>
     </button>
   )
 }

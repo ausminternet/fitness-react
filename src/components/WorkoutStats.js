@@ -12,7 +12,7 @@ let WorkoutStats = ({ exercises }) => (
 
 const mapStateToProps = state => {
   return {
-    exercises: state.exercises
+    exercises: state.workout.exercises
   }
 }
 

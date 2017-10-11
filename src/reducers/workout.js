@@ -1,4 +1,4 @@
-const workout = (state = {}, action) => {
+const workout = (state = {exercises: []}, action) => {
   switch (action.type) {
     case 'SET_EFFORT':
       return {
@@ -20,7 +20,17 @@ const workout = (state = {}, action) => {
     case 'DO_REPEATS':
       return {
         ...state,
-        currentRepeats: state.currentRepeats - action.repeats
+        currentRepeats: state.currentRepeats - action.repeats,
+        exercises: state.exercises.map(e => {
+          if (e.id === action.id) {
+            const done = e.repeatsDone + action.repeats
+            return {...e,
+              repeatsDone: done,
+              isDone: done === e.repeatsMax
+            }
+          }
+          return e
+        })
       }
     case 'FINISH_WORKOUT':
       return {
@@ -47,7 +57,8 @@ const workout = (state = {}, action) => {
         currentRepeats: 0,
         currentExercise: undefined,
         effort: undefined,
-        startTime: undefined
+        startTime: undefined,
+        exercises: []
       }
     case 'RESTART_WORKOUT':
       return {
@@ -56,7 +67,23 @@ const workout = (state = {}, action) => {
         isDone: false,
         currentRepeats: 0,
         currentExercise: undefined,
-        startTime: action.startTime
+        startTime: action.startTime,
+        exercises: state.exercises.map(e => {
+          return {...e,
+            repeatsDone: 0,
+            isDone: false
+          }
+        })
+      }
+    case 'ADD_EXERCISE_TO_WORKOUT':
+      const exercise = action.exercise
+      exercise.repeatsDone = 0
+      return {
+        ...state,
+        exercises: [
+          ...state.exercises,
+          exercise
+        ]
       }
     default:
       return state

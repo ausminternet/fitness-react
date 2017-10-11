@@ -9,15 +9,9 @@ import 'firebase/firestore'
 import rootReducer from '../reducers'
 
 const api = firebase.initializeApp(firebaseConfig)
-const db = api.firestore()
-db.collection('exercises').get().then((querySnapshot) => {
-  querySnapshot.forEach((doc) => {
-    console.log(`${doc.id} => ${doc.data()}`)
-  })
-}).catch(error => {
-  console.log(error.code)
-  console.log(error.message)
-})
+
+const db = firebase.firestore()
+db.enablePersistence().then(console.log('enabled'))
 
 export default function makeStore(initialState, history) {
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

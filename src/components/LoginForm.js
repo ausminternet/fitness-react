@@ -14,11 +14,8 @@ class LoginForm extends Component {
     }
   }
 
-  componentWillReceiveProps({userState, handleLogin}) {
+  componentWillReceiveProps({userState}) {
     switch (userState) {
-      // case 'loginButtonClicked':
-      //   handleLogin(this.state.email, this.state.password)
-      //   break
       case 'loginFailed':
         this.setState({
           showError: true,

@@ -6,49 +6,96 @@ import Login from './LoginView'
 import Signup from './SignupView'
 import { checkLogin } from '../actions/user'
 import Loader from '../components/Loader'
+import Sheet from '../components/Sheet'
 import Index from './Index'
 import User from './User'
 
 class App extends Component {
-  constructor({show, checkLogin}) {
+  constructor({view, showLoader, loaderText, sheet, sheetState, checkLogin}) {
     super()
-    this.state = {show}
-    this.checkLogin = checkLogin
+    this.state = {view, showLoader, loaderText, sheet, sheetState}
+    checkLogin()
   }
 
-  componentDidMount() {
-    this.checkLogin()
-  }
-
-  componentWillReceiveProps({show}) {
-    this.setState({
-      show
-    })
+  componentWillReceiveProps({view, showLoader, loaderText, sheet, sheetState}) {
+    this.setState({view, showLoader, loaderText, sheet, sheetState})
   }
 
   render() {
-    switch (this.state.show) {
-      case 'activeWorkout':
-        return <ActiveWorkout />
+    let view, sheet
+    switch (this.state.view) {
+      // case 'activeWorkout':
+      //   view = <ActiveWorkout />
+      //   sheet = true
+      //   break
       case 'workoutFinished':
-        return <FinishedWorkout />
+        view = <FinishedWorkout />
+        sheet = true
+        break
       case 'index':
-        return <Index />
+        view = <Index />
+        break
       case 'signup':
-        return <Signup />
+        view = <Signup />
+        break
       case 'login':
-        return <Login />
+        view = <Login />
+        break
       case 'user':
-        return <User />
+        view = <User />
+        break
       default:
-        return <Loader />
+        view = <Login />
     }
+    switch (this.state.sheet) {
+      case 'activeWorkout':
+        sheet = <ActiveWorkout />
+        break
+      // case 'workoutFinished':
+      //   view = <FinishedWorkout />
+      //   sheet = true
+      //   break
+      // case 'index':
+      //   view = <Index />
+      //   break
+      // case 'signup':
+      //   view = <Signup />
+      //   break
+      // case 'login':
+      //   view = <Login />
+      //   break
+      // case 'user':
+      //   view = <User />
+      //   break
+      default:
+        sheet = null
+    }
+
+    const loader = this.state.showLoader
+      ? <Loader text={this.state.loaderText} />
+      : null
+
+    const sheetView = (this.state.sheetState !== 'closed')
+      ? <Sheet>{sheet}</Sheet>
+      : null
+
+    return (
+      <div className="App">
+        {view}
+        {sheetView}
+        {loader}
+      </div>
+    )
   }
 }
 
 const mapStateToProps = state => {
   return {
-    show: state.app.show,
+    view: state.app.view,
+    sheet: state.app.sheet,
+    sheetState: state.app.sheetState,
+    showLoader: state.app.showLoader,
+    loaderText: state.app.loaderText
   }
 }
 
