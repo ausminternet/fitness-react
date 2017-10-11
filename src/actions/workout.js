@@ -47,13 +47,11 @@ export const restartWorkout = () => dispatch => {
 
 export const prepareRandomWorkout = (effort) => (dispatch, getState, {db}) => {
   dispatch(setEffort(effort))
-  const exercises = getState().exercises
-  dispatch(prepareExercises(exercises, effort))
-  dispatch(startWorkout())
+  dispatch(prepareExercises(getState().exercises, effort))
   dispatch(prepareNextExercise())
+  dispatch(startWorkout())
   dispatch(app.setSheet('activeWorkout'))
   dispatch(app.openSheet())
-  // dispatch(app.goto('ACTIVE_WORKOUT'))
 }
 
 export const tick = () => (dispatch, getState) => {
@@ -63,9 +61,8 @@ export const tick = () => (dispatch, getState) => {
       getState().workout.currentRepeats
     ))
     if (workoutLib.done(getState().workout.exercises)) {
-      dispatch(app.closeSheet())
       dispatch(finishWorkout())
-      dispatch(app.goto('WORKOUT_FINISHED'))
+      dispatch(app.setSheet('finishedWorkout'))
     } else {
       dispatch(prepareNextExercise())
     }
@@ -80,9 +77,9 @@ export const finishWorkout = () => {
 }
 
 export const endWorkout = () => dispatch => {
-  app.closeSheet()
-  dispatch(clearWorkout())
-  dispatch(app.goto('INDEX'))
+  dispatch(app.closeSheet()).then(() => {
+    dispatch(clearWorkout())
+  })
 }
 
 export const clearWorkout = () => dispatch => {
@@ -93,8 +90,9 @@ export const clearWorkout = () => dispatch => {
 
 export const cancelWorkout = () => (dispatch) => {
   if (window.confirm('Cancel workout?')) {
-    dispatch(app.closeSheet())
-    window.setTimeout(() => dispatch(clearWorkout()), 300)
+    dispatch(app.closeSheet()).then(() => {
+      dispatch(clearWorkout())
+    })
   }
 }
 

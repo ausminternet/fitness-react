@@ -55,7 +55,6 @@ const app = (state = initialAppState, action) => {
       return {
         ...state,
         sheetState: 'open',
-        sheet: action.sheet
       }
     case 'SET_SHEET':
       console.log('set sheet')
