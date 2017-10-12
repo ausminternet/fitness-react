@@ -1,7 +1,7 @@
 import React from 'react'
 import UserIcon from '../icons/user.png'
 import { connect } from 'react-redux'
-import { goto } from '../actions/app'
+import { goto } from '../app/actions'
 
 let UserButton = ({displayName, onClick}) => {
   return (

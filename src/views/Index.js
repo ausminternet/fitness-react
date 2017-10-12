@@ -10,7 +10,7 @@ const Index = () => {
       <TopBar>
         <TopBarCenter>Choose Workout</TopBarCenter>
         <TopBarRight>
-          <GotoButton view="USER" icon={UserIcon} />
+          <GotoButton view="user" icon={UserIcon} />
         </TopBarRight>
       </TopBar>
       <ChooseEffort />

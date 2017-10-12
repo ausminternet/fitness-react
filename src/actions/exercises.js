@@ -1,12 +1,12 @@
-import * as app from './app'
+import * as app from '../app/actions'
 
-export const addExercise = (
+export function addExercise(
   id,
   name,
   repeatsMax,
   repeatsSetMin,
   repeatsSetMax
-) => {
+) {
   return {
     type: 'ADD_EXERCISE',
     exercise: {
@@ -20,17 +20,19 @@ export const addExercise = (
   }
 }
 
-export const removeExercises = () => {
+export function removeExercises () {
   return {
     type: 'REMOVE_EXERCISES'
   }
 }
 
-export const getExercises = () => (dispatch, getState, { db }) => {
-  dispatch(app.showLoader())
-  db.collection('users/' + getState().user.uid + '/exercises').get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach(e => {
+export function getExercises() {
+  return async (dispatch, getState, { db }) => {
+    dispatch(app.showLoader())
+    try {
+      const collection = 'users/' + getState().user.uid + '/exercises'
+      const data = await db.collection(collection).get()
+      data.forEach(e => {
         const d = e.data()
         dispatch(addExercise(
           e.id,
@@ -41,8 +43,9 @@ export const getExercises = () => (dispatch, getState, { db }) => {
         ))
       })
       dispatch(app.hideLoader())
-    }).catch(error => {
+    } catch (error) {
       console.log(error.code)
       console.log(error.message)
-    })
+    }
+  }
 }

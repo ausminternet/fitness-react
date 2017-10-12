@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import ActiveWorkout from '../views/ActiveWorkout'
-import FinishedWorkout from '../views/FinishedWorkout'
+import ActiveWorkout from '../../activeWorkout/ActiveWorkout'
+import FinishedWorkout from '../../FinishedWorkout/FinishedWorkout'
 
 class Sheet extends Component {
   constructor({ sheetState, children }) {

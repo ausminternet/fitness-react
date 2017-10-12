@@ -1,5 +1,5 @@
 import React from 'react'
-import done from '../icons/done.svg'
+import done from '../../icons/done.svg'
 
 function FinishedMessage(props) {
   return (

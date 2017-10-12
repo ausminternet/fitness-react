@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { prepareRandomWorkout } from '../actions/workout'
+import { prepareRandomWorkout } from '../activeWorkout/actions'
 import React from 'react'
 
 let ChooseEffortButton = ({effort, onClick}) => {

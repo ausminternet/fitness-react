@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { login } from '../actions/user'
+import { login } from '../actions/login'
 import { connect } from 'react-redux'
 
 class LoginForm extends Component {
@@ -89,7 +89,7 @@ class LoginForm extends Component {
     this.setState({
       [name]: value
     })
-    
+
     this.setState({disableSubmit: !this.readyToSubmit})
   }
 

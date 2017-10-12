@@ -1,7 +1,7 @@
 import React from 'react'
-import RestartIcon from '../icons/restart.png'
+import RestartIcon from '../../icons/restart.png'
 import { connect } from 'react-redux'
-import { restartWorkout } from '../actions/workout'
+import { restartWorkout } from '../actions'
 
 let RestartWorkoutButton = ({onClick}) => {
   return (

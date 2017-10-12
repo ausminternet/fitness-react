@@ -1,7 +1,7 @@
 import React from 'react'
 import LogoutIcon from '../icons/logout.png'
 import { connect } from 'react-redux'
-import { logout } from '../actions/user'
+import { logout } from '../actions/login'
 
 let LogoutButton = ({onClick}) => {
   return (

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { endWorkout } from '../actions/workout'
+import { endWorkout } from '../actions'
 
 let EndWorkoutButton = ({onClick}) => {
   return (

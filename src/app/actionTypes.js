@@ -1,0 +1,8 @@
+export const SHOW_LOADER = 'fitness/app/SHOW_LOADER'
+export const HIDE_LOADER = 'fitness/app/HIDE_LOADER'
+export const GOTO_VIEW = 'fitness/app/GOTO_VIEW'
+export const SET_SHEET = 'fitness/app/SET_SHEET'
+export const OPEN_SHEET = 'fitness/app/OPEN_SHEET'
+export const SHEET_OPENED = 'fitness/app/SHEET_OPENED'
+export const CLOSE_SHEET = 'fitness/app/CLOSE_SHEET'
+export const SHEET_CLOSED = 'fitness/app/SHEET_CLOSED'

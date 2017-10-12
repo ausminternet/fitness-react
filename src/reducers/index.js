@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
-import app from './app'
-import workout from './workout'
+import app from '../app/reducer'
+import workout from '../activeWorkout/reducer'
 import exercises from './exercises'
 import user from './user'
 

@@ -1,12 +1,12 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import Login from './LoginView'
-import Signup from './SignupView'
-import { checkLogin } from '../actions/user'
+import Login from '../views/LoginView'
+import Signup from '../views/SignupView'
+import { checkLogin } from '../actions/login'
 import Loader from '../components/Loader'
-import Sheet from '../components/Sheet'
-import Index from './Index'
-import User from './User'
+import Sheet from './components/Sheet'
+import Index from '../views/Index'
+import User from '../views/User'
 
 class App extends Component {
   constructor({view, showLoader, loaderText, sheet, sheetState, checkLogin}) {

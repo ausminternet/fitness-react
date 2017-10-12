@@ -22,7 +22,7 @@ class SignupView extends Component {
         <TopBar>
           <TopBarLeft>
             <GotoButton
-              view="LOGIN"
+              view="login"
               text="Login"
               icon={BackIcon}
             />

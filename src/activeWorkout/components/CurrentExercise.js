@@ -1,5 +1,5 @@
 import React from 'react'
-import { tick } from '../actions/workout'
+import { tick } from '../actions'
 import { connect } from 'react-redux'
 
 let CurrentExercise = ({

@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { toggleWorkout } from '../actions/workout'
-import PauseIcon from '../icons/pause.png'
-import ResumeIcon from '../icons/resume.png'
+import { toggleWorkout } from '../actions'
+import PauseIcon from '../../icons/pause.png'
+import ResumeIcon from '../../icons/resume.png'
 
 let PauseWorkoutButton = ({workoutState, onClick}) => {
   const toggleIcon = (workoutState === 'paused') ? ResumeIcon : PauseIcon

@@ -15,7 +15,7 @@ const User = () => {
       <TopBar>
         <TopBarLeft>
           <GotoButton
-            view='INDEX'
+            view='index'
             text="Back"
             icon={BackIcon}
           />

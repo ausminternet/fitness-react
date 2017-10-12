@@ -1,7 +1,7 @@
 import React from 'react'
-import CancelIcon from '../icons/cancel.png'
+import CancelIcon from '../../icons/cancel.png'
 import { connect } from 'react-redux'
-import { cancelWorkout } from '../actions/workout'
+import { cancelWorkout } from '../actions'
 
 let CancelWorkoutButton = ({onClick}) => {
   return (

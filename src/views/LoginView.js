@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { goto } from '../actions/app'
+import { goto } from '../app/actions'
 import { connect } from 'react-redux'
 import LoginForm from '../components/LoginForm'
 import { TopBar, TopBarRight } from '../components/TopBar'
@@ -29,7 +29,7 @@ class LoginView extends Component {
         <TopBar>
           <TopBarRight>
             <GotoButton
-              view="SIGNUP"
+              view="signup"
               text="Sign up"
               icon={RegisterIcon}/>
           </TopBarRight>

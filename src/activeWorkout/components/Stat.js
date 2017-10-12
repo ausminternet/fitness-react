@@ -1,6 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import DoneIcon from '../icons/done.svg'
+import DoneIcon from '../../icons/done.svg'
 
 const Stat = ({name, repeatsDone = 0, repeatsMax}) => {
   const percentDone = Math.floor((repeatsDone / repeatsMax) * 100)
@@ -16,14 +15,6 @@ const Stat = ({name, repeatsDone = 0, repeatsMax}) => {
         <div className="repeatsLeft">
           {repeats}
         </div>
-        {/* <div className="stats">
-           <div className="repeats">
-           {repeatsDone}/{repeatsMax}
-          </div> 
-           <div className="percentage">
-            {percentDone}%
-          </div> 
-        </div> */}
       </div>
       <div className="progressbar">
         <div

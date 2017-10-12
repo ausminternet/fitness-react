@@ -1,39 +1,37 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 
 class Timer extends Component {
-  constructor({start, paused}) {
+  constructor({startTime, isPaused}) {
     super()
     this.state = {
       elapsed: 0,
-      startedAt: start,
-      isPaused: paused,
+      startTime,
+      isPaused,
       pauseText: 'Pause',
       offset: 0
     }
   }
 
-  componentWillReceiveProps({start, paused}) {
-    console.log(paused)
-    if (start === this.state.startedAt) {
-      if (paused) {
+  componentWillReceiveProps({startTime, isPaused}) {
+    if (startTime === this.state.startTime) {
+      if (isPaused) {
         this.setState({
-          isPaused: true,
+          isPaused,
           pauseText: 'Weiter',
           pausedAt: Date.now()
         })
       } else {
         this.setState({
-          isPaused: false,
+          isPaused,
           pauseText: 'Pause',
           offset: new Date() - this.state.pausedAt + this.state.offset
         })
       }
     } else {
       this.setState({
-        startedAt: start,
+        startTime,
         offset: 0,
-        isPaused: false
+        isPaused
       })
     }
   }
@@ -49,7 +47,7 @@ class Timer extends Component {
   tick = () => {
     if (!this.state.isPaused) {
       this.setState({
-        elapsed: new Date() - this.state.startedAt - this.state.offset
+        elapsed: new Date() - this.state.startTime - this.state.offset
       })
       this.calcTime()
     }

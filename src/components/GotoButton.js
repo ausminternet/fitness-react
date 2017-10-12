@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { goto } from '../actions/app'
+import { goto } from '../app/actions'
 
 let GotoButton = ({view, text, icon, onClick}) => {
   icon = icon ? <img src={icon} alt="Back"/> : null
