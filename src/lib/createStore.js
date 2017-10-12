@@ -9,6 +9,13 @@ import 'firebase/firestore'
 import rootReducer from '../reducers'
 
 const api = firebase.initializeApp(firebaseConfig)
+api.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() =>
+  console.log('persistant auth!')
+).catch((err) => {
+  console.log('not persistant')
+  console.log(err.code)
+  console.log(err.message)
+})
 
 const db = firebase.firestore()
 db.enablePersistence().then(console.log('enabled'))

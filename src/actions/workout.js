@@ -42,6 +42,7 @@ export const restartWorkout = () => dispatch => {
       startTime: Date.now()
     })
     dispatch(prepareNextExercise())
+    dispatch(app.setSheet('activeWorkout'))
   }
 }
 
